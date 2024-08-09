@@ -1,4 +1,7 @@
+import 'package:expensero/auth/auth_state.dart';
+import 'package:expensero/screens/pin_entry_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'screens/home_screen.dart';
 import 'services/database_helper.dart';
@@ -15,18 +18,23 @@ void main() async {
   } catch (e) {
     print('Error initializing database: $e');
   }
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AuthState(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Personal Expense Manager',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
+      home: Consumer<AuthState>(
+        builder: (context, authState, child) {
+          return authState.isAuthenticated ? HomeScreen() : PinEntryScreen();
+        },
       ),
-      home: HomeScreen(),
     );
   }
 }

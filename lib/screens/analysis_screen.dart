@@ -1,3 +1,4 @@
+import 'package:expensero/utils/my_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../models/account.dart';
@@ -77,7 +78,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Expense Analysis')),
+      appBar: MyAppBar(
+        title: "Expense Analysis",
+      ),
       body: Column(
         children: [
           _buildDateRangeSelector(),
@@ -133,7 +136,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
 
   Widget _buildDateRangeSelector() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -238,7 +241,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
           PieChart(
             PieChartData(
               sections: _getCategorySections(),
-              centerSpaceRadius: 70,
+              centerSpaceRadius: 75,
               sectionsSpace: 1,
               pieTouchData: PieTouchData(
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {
@@ -311,9 +314,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
         color: _getCategoryColor(category.id!),
         value: entry.value,
         title: isSelected ? '' : '${percentage.toStringAsFixed(1)}%',
-        radius: isSelected ? 85 : 80,
+        radius: isSelected ? 85 : 75,
         titleStyle: const TextStyle(
-          fontSize: 10,
+          fontSize: 12,
           color: Colors.white,
         ),
       );

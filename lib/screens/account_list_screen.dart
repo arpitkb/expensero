@@ -1,3 +1,4 @@
+import 'package:expensero/utils/my_app_bar.dart';
 import 'package:expensero/widgets/account_list_item.dart';
 import 'package:flutter/material.dart';
 import '../models/account.dart';
@@ -31,7 +32,9 @@ class _AccountListScreenState extends State<AccountListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Accounts')),
+      appBar: const MyAppBar(
+        title: "Accounts",
+      ),
       body: ListView.builder(
         itemCount: _accounts.length,
         itemBuilder: (context, index) {

@@ -1,3 +1,5 @@
+import 'package:expensero/utils/my_app_bar.dart';
+import 'package:expensero/utils/my_dropdown.dart';
 import 'package:expensero/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -205,15 +207,14 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Expenses'),
+      appBar: MyAppBar(
+        title: 'All Expenses',
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () {
-              _showFilterDialog(context);
-            },
-          ),
+              onPressed: () {
+                _showFilterDialog(context);
+              },
+              icon: const Icon(Icons.filter_list_outlined))
         ],
       ),
       body: Column(
@@ -242,7 +243,10 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              Text('${expense.amount}'),
+                              Text(
+                                '${expense.amount}',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
                               const SizedBox(width: 2),
                               const Icon(
                                 Icons.currency_rupee,
@@ -341,41 +345,47 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: const Text('Filter Expenses'),
+              // title: const Text(
+              //   'Filter Expenses',
+              //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              // ),
+
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    DropdownButton<Category>(
-                      hint: const Text('Select Category'),
-                      value: selectedCategory,
-                      onChanged: (Category? newValue) {
-                        setState(() {
-                          selectedCategory = newValue;
-                        });
-                      },
-                      items: categories
-                          .map<DropdownMenuItem<Category>>((Category category) {
-                        return DropdownMenuItem<Category>(
-                          value: category,
-                          child: Text(category.name),
-                        );
-                      }).toList(),
+                    SizedBox(height: 10),
+                    SizedBox(
+                      width: 125,
+                      height: 40,
+                      child: MyDropdown<Category>(
+                        items: categories,
+                        selectedItem: selectedCategory,
+                        onChanged: (Category? newValue) {
+                          setState(() {
+                            selectedCategory = newValue;
+                          });
+                        },
+                        getLabel: (Category category) => category.name,
+                        hintText: 'Select category',
+                      ),
                     ),
-                    DropdownButton<Account>(
-                      hint: const Text('Select Account'),
-                      value: selectedAccount,
-                      onChanged: (Account? newValue) {
-                        setState(() {
-                          selectedAccount = newValue;
-                        });
-                      },
-                      items: accounts
-                          .map<DropdownMenuItem<Account>>((Account account) {
-                        return DropdownMenuItem<Account>(
-                          value: account,
-                          child: Text(account.name),
-                        );
-                      }).toList(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: 125,
+                      height: 40,
+                      child: MyDropdown<Account>(
+                        items: accounts,
+                        selectedItem: selectedAccount,
+                        onChanged: (Account? newValue) {
+                          setState(() {
+                            selectedAccount = newValue;
+                          });
+                        },
+                        getLabel: (Account account) => account.name,
+                        hintText: 'Select account',
+                      ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(top: 16.0),

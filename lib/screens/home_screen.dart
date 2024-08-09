@@ -1,7 +1,9 @@
+import 'package:expensero/utils/my_app_bar.dart';
 import 'package:flutter/material.dart';
 import '../services/database_helper.dart';
 import '../models/expense.dart';
 import '../utils/date.dart';
+import '../utils/formatting.dart';
 import 'add_expense_screen.dart';
 import 'analysis_screen.dart';
 import 'category_list_screen.dart';
@@ -67,16 +69,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Expensero'),
+      appBar: const MyAppBar(
+        title: "Expensero",
       ),
       body: RefreshIndicator(
         onRefresh: _refreshData,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -84,16 +86,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   _buildSummaryCard('This Week', weekTotal),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Card(
-                margin: EdgeInsets.all(18),
+                margin: const EdgeInsets.all(18),
                 child: Column(
                   children: [
                     ListTile(
-                      title: Text('Recent Expenses',
+                      title: const Text('Recent Expenses',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       trailing: TextButton(
-                        child: Text('See All'),
+                        child: const Text('See All'),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -105,12 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     ...recentExpenses.map((expense) => ListTile(
                           title: Text(
-                            '${expense.description}',
-                            style: TextStyle(
+                            expense.description,
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           trailing: Text('${accountNames[expense.accountId]}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 12, color: Colors.black87)),
                           subtitle: Row(
                             children: [
@@ -118,14 +120,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(
                                   width:
                                       2), // Add some space between the amount and the icon
-                              Icon(
+                              const Icon(
                                 Icons
                                     .currency_rupee, // You can choose any icon that represents currency
                                 size: 16, // Adjust the size as needed
                                 color: Colors
                                     .green, // You can change the color as desired
                               ),
-                              SizedBox(
+                              const SizedBox(
                                   width:
                                       4), // Add some space between the icon and the date
                               Text(
@@ -187,18 +189,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildSummaryCard(String title, double amount) {
+    String formattedAmount = Formatting.formatCurrency(amount);
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(40),
+        padding: EdgeInsets.all(25),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(title, style: TextStyle(fontSize: 16)),
-            SizedBox(height: 8),
-            Text('₹${amount.toStringAsFixed(2)}',
+            Text(
+              title,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 15),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                '₹$formattedAmount',
                 style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green)),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: amount > 1000 ? Colors.blueGrey : Colors.green,
+                ),
+              ),
+            ),
           ],
         ),
       ),

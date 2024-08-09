@@ -1,3 +1,4 @@
+import 'package:expensero/utils/my_app_bar.dart';
 import 'package:expensero/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
 import '../models/expense.dart';
@@ -119,8 +120,8 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.expense == null ? 'Add Expense' : 'Edit Expense')),
+      appBar: MyAppBar(
+          title: widget.expense == null ? 'Add Expense' : 'Edit Expense'),
       body: Form(
         key: _formKey,
         child: ListView(

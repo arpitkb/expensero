@@ -1,3 +1,4 @@
+import 'package:expensero/utils/my_app_bar.dart';
 import 'package:expensero/utils/snack_bar.dart';
 import 'package:expensero/widgets/category_list_item.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Categories')),
+      appBar: const MyAppBar(title: 'Categories'),
       body: ListView.builder(
         itemCount: _categories.length,
         itemBuilder: (context, index) {
