@@ -1,5 +1,5 @@
-import 'package:expensero/utils/my_app_bar.dart';
-import 'package:expensero/utils/snack_bar.dart';
+import 'package:expensero/widgets/my_app_bar.dart';
+import 'package:expensero/widgets/snack_bar.dart';
 import 'package:expensero/widgets/category_list_item.dart';
 import 'package:flutter/material.dart';
 import '../models/category.dart';

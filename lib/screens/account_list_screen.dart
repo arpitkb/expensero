@@ -1,9 +1,9 @@
-import 'package:expensero/utils/my_app_bar.dart';
+import 'package:expensero/widgets/my_app_bar.dart';
 import 'package:expensero/widgets/account_list_item.dart';
 import 'package:flutter/material.dart';
 import '../models/account.dart';
 import '../services/database_helper.dart';
-import '../utils/snack_bar.dart';
+import '../widgets/snack_bar.dart';
 
 class AccountListScreen extends StatefulWidget {
   const AccountListScreen({super.key});

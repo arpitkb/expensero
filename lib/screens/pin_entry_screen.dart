@@ -36,7 +36,7 @@ class _PinEntryScreenState extends State<PinEntryScreen> {
         const SnackBar(
           content: Text('Invalid PIN. Please try again.'),
           duration: Duration(milliseconds: 1000),
-          backgroundColor: Color.fromARGB(255, 79, 86, 99),
+          backgroundColor: Color.fromARGB(255, 122, 132, 149),
         ),
       );
     }
