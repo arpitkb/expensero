@@ -245,7 +245,8 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
                             children: [
                               Text(
                                 '${expense.amount}',
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600),
                               ),
                               const SizedBox(width: 2),
                               const Icon(
@@ -353,7 +354,7 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     SizedBox(
                       width: 125,
                       height: 40,
@@ -369,7 +370,7 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
                         hintText: 'Select category',
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     SizedBox(
@@ -456,9 +457,13 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
                   await DatabaseHelper.instance.deleteExpense(expense.id!);
                   _refreshExpenses();
                   showSnackBar(
-                      context, 'Expense Deleted', SnackBarStatus.deleted);
+                      // ignore: use_build_context_synchronously
+                      context,
+                      'Expense Deleted',
+                      SnackBarStatus.deleted);
                 } catch (e) {
                   showSnackBar(
+                      // ignore: use_build_context_synchronously
                       context,
                       'Could not Delete expense. Please try again!',
                       SnackBarStatus.error);

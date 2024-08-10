@@ -11,17 +11,20 @@ import 'account_list_screen.dart';
 import 'all_expenses_screen.dart'; // You'll need to create this screen
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   static Future<void> refreshAndClear(BuildContext context) async {
     // Pop all routes until we reach the root
     Navigator.of(context).popUntil((route) => route.isFirst);
 
     // Push a new instance of HomeScreen
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => HomeScreen()),
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
     );
   }
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -35,10 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _refreshData();
-  }
-
-  Future<void> _refresh() async {
-    await HomeScreen.refreshAndClear(context);
   }
 
   Future<void> _refreshData() async {
@@ -100,7 +99,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AllExpensesScreen()),
+                                builder: (context) =>
+                                    const AllExpensesScreen()),
                           );
                         },
                       ),
@@ -156,29 +156,33 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: Icon(Icons.pie_chart),
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AnalysisScreen())),
-            ),
-            IconButton(
-              icon: Icon(Icons.category),
+              icon: const Icon(Icons.pie_chart),
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CategoryListScreen())),
+                      builder: (context) => const AnalysisScreen())),
             ),
             IconButton(
-              icon: Icon(Icons.account_balance),
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AccountListScreen())),
+              icon: const Icon(Icons.category),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CategoryListScreen())),
             ),
             IconButton(
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.account_balance),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AccountListScreen())),
+            ),
+            IconButton(
+              icon: const Icon(Icons.add),
               onPressed: () async {
                 await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => AddExpenseScreen()));
+                        builder: (context) => const AddExpenseScreen()));
                 _refreshData();
               },
             ),
@@ -192,15 +196,15 @@ class _HomeScreenState extends State<HomeScreen> {
     String formattedAmount = Formatting.formatCurrency(amount);
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(25),
+        padding: const EdgeInsets.all(25),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               title,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(

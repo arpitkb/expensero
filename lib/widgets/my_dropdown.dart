@@ -8,13 +8,13 @@ class MyDropdown<T> extends StatelessWidget {
   final String hintText;
 
   const MyDropdown({
-    Key? key,
+    super.key,
     required this.items,
     required this.selectedItem,
     required this.onChanged,
     required this.getLabel,
     required this.hintText,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

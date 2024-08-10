@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/account.dart';
 import '../services/database_helper.dart';
 import '../widgets/snack_bar.dart';
+import 'dart:developer' as developer;
 
 class AccountListScreen extends StatefulWidget {
   const AccountListScreen({super.key});
@@ -87,12 +88,14 @@ class _AccountListScreenState extends State<AccountListScreen> {
                     if (acc == null) {
                       await DatabaseHelper.instance.insertAccount(account);
                       _refreshAccounts();
+                      // ignore: use_build_context_synchronously
                       showSnackBar(context, 'Account created successfully!',
                           SnackBarStatus.create,
                           seconds: 2);
                     } else {
                       await DatabaseHelper.instance.updateAccount(account);
                       _refreshAccounts();
+                      // ignore: use_build_context_synchronously
                       showSnackBar(context, 'Account updated successfully!',
                           SnackBarStatus.update,
                           seconds: 2);
@@ -138,7 +141,7 @@ class _AccountListScreenState extends State<AccountListScreen> {
                       SnackBarStatus.deleted,
                       seconds: 2);
                 } catch (e) {
-                  // print('Error: $e');
+                  developer.log('Error: $e');
                   showSnackBar(
                       // ignore: use_build_context_synchronously
                       context,

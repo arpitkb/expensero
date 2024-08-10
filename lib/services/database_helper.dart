@@ -1,8 +1,10 @@
 import 'package:sqflite/sqflite.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 import '../models/expense.dart';
 import '../models/category.dart';
 import '../models/account.dart';
+import 'dart:developer' as developer;
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
@@ -17,7 +19,7 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDB(String filePath) async {
-    print("calling _initDB function");
+    developer.log("calling _initDB function");
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(
@@ -34,7 +36,7 @@ class DatabaseHelper {
   }
 
   Future _createDB(Database db, int version) async {
-    print("calling _createDB function");
+    developer.log("calling _createDB function");
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
     const realType = 'REAL NOT NULL';
@@ -81,10 +83,11 @@ CREATE TABLE expenses (
   }
 
   Future _upgradeDB(Database db, int oldVersion, int newVersion) async {
-    // print('Upgrading database from version $oldVersion to $newVersion');
+    developer.log('Upgrading database from version $oldVersion to $newVersion');
 
     if (oldVersion < 2) {
-      print('Upgrading database from version $oldVersion to $newVersion');
+      developer
+          .log('Upgrading database from version $oldVersion to $newVersion');
       // Add migration logic here if schema has changed
       const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
       const textType = 'TEXT NOT NULL';
@@ -129,7 +132,7 @@ CREATE TABLE IF NOT EXISTS expenses (
       await db.insert('accounts', {'name': 'IXIGO-CC'});
       await db.insert('accounts', {'name': 'ICICI-CC'});
 
-      print('Database upgraded successfully!');
+      developer.log('Database upgraded successfully!');
     }
   }
 
@@ -155,17 +158,17 @@ CREATE TABLE IF NOT EXISTS expenses (
     DateTime now = DateTime.now();
     DateTime startOfWeek = DateTime(now.year, now.month, now.day)
         .subtract(Duration(days: now.weekday - 1)); // Monday
-    DateTime endOfWeek = startOfWeek
-        .add(Duration(days: 6, hours: 23, minutes: 59, seconds: 59)); // Sunday
+    DateTime endOfWeek = startOfWeek.add(
+        const Duration(days: 6, hours: 23, minutes: 59, seconds: 59)); // Sunday
 
-    // print('${startOfWeek} and ${endOfWeek}');
+    developer.log('$startOfWeek and $endOfWeek');
 
     final result = await db.rawQuery(
       'SELECT SUM(amount) as total FROM expenses WHERE date >= ? AND date <= ?',
       [startOfWeek.toIso8601String(), endOfWeek.toIso8601String()],
     );
 
-    // print('result is ${result}');
+    developer.log('result is $result');
 
     if (result.isNotEmpty && result.first['total'] != null) {
       return result.first['total'] as double;

@@ -118,15 +118,15 @@ class PinInput extends StatelessWidget {
   final VoidCallback onCompleted;
 
   const PinInput({
-    Key? key,
+    super.key,
     required this.controller,
     required this.focusNode,
     required this.onCompleted,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 180,
       child: TextField(
         controller: controller,
@@ -135,16 +135,17 @@ class PinInput extends StatelessWidget {
         maxLength: 4,
         obscureText: true,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 24, color: Colors.white, letterSpacing: 10),
+        style: const TextStyle(
+            fontSize: 24, color: Colors.white, letterSpacing: 10),
         decoration: InputDecoration(
           counterText: '',
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.white),
+            borderSide: const BorderSide(color: Colors.white),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.white, width: 2),
+            borderSide: const BorderSide(color: Colors.white, width: 2),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

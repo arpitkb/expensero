@@ -3,13 +3,15 @@ import '../models/expense.dart';
 import '../models/category.dart';
 import '../models/account.dart';
 import '../services/database_helper.dart';
+import 'dart:developer' as developer;
 
 class EditExpenseScreen extends StatefulWidget {
   final Expense expense;
 
-  EditExpenseScreen({required this.expense});
+  const EditExpenseScreen({super.key, required this.expense});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditExpenseScreenState createState() => _EditExpenseScreenState();
 }
 
@@ -33,7 +35,7 @@ class _EditExpenseScreenState extends State<EditExpenseScreen> {
     _selectedDate = widget.expense.date;
     _loadCategories();
     _loadAccounts();
-    print('edit expense screen');
+    developer.log('edit expense screen');
   }
 
   Future<void> _loadCategories() async {
@@ -57,15 +59,15 @@ class _EditExpenseScreenState extends State<EditExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Expense')),
+      appBar: AppBar(title: const Text('Edit Expense')),
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           children: [
             TextFormField(
               controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(labelText: 'Description'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a description';
@@ -75,8 +77,9 @@ class _EditExpenseScreenState extends State<EditExpenseScreen> {
             ),
             TextFormField(
               controller: _amountController,
-              decoration: InputDecoration(labelText: 'Amount'),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(labelText: 'Amount'),
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter an amount';
@@ -89,7 +92,7 @@ class _EditExpenseScreenState extends State<EditExpenseScreen> {
             ),
             DropdownButtonFormField<Category>(
               value: _selectedCategory,
-              decoration: InputDecoration(labelText: 'Category'),
+              decoration: const InputDecoration(labelText: 'Category'),
               items: _categories.map((category) {
                 return DropdownMenuItem(
                   value: category,
@@ -110,7 +113,7 @@ class _EditExpenseScreenState extends State<EditExpenseScreen> {
             ),
             DropdownButtonFormField<Account>(
               value: _selectedAccount,
-              decoration: InputDecoration(labelText: 'Account'),
+              decoration: const InputDecoration(labelText: 'Account'),
               items: _accounts.map((account) {
                 return DropdownMenuItem(
                   value: account,
@@ -131,7 +134,7 @@ class _EditExpenseScreenState extends State<EditExpenseScreen> {
             ),
             ListTile(
               title: Text('Date: ${_selectedDate.toString().substring(0, 10)}'),
-              trailing: Icon(Icons.calendar_today),
+              trailing: const Icon(Icons.calendar_today),
               onTap: () async {
                 final pickedDate = await showDatePicker(
                   context: context,
@@ -147,7 +150,7 @@ class _EditExpenseScreenState extends State<EditExpenseScreen> {
               },
             ),
             ElevatedButton(
-              child: Text('Update Expense'),
+              child: const Text('Update Expense'),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   final updatedExpense = Expense(
@@ -159,6 +162,7 @@ class _EditExpenseScreenState extends State<EditExpenseScreen> {
                     date: _selectedDate,
                   );
                   await DatabaseHelper.instance.updateExpense(updatedExpense);
+                  // ignore: use_build_context_synchronously
                   Navigator.pop(context);
                 }
               },

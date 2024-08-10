@@ -5,13 +5,15 @@ import '../models/expense.dart';
 import '../models/category.dart';
 import '../models/account.dart';
 import '../services/database_helper.dart';
+import 'dart:developer' as developer;
 
 class AddExpenseScreen extends StatefulWidget {
   final Expense? expense;
 
-  AddExpenseScreen({this.expense});
+  const AddExpenseScreen({super.key, this.expense});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddExpenseScreenState createState() => _AddExpenseScreenState();
 }
 
@@ -29,7 +31,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   void initState() {
     super.initState();
     _loadData();
-    print('add expense screen');
+    developer.log('add expense screen');
   }
 
   Future<void> _loadData() async {
@@ -49,9 +51,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           _selectedCategory = _categories.first;
         }
       });
-      // print('Categories loaded');
+      developer.log('Categories loaded');
     } catch (e) {
-      print('Error loading categories: $e');
+      developer.log('Error loading categories: $e');
       _showErrorSnackBar('Failed to load categories. Please try again.');
     }
   }
@@ -65,9 +67,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           _selectedAccount = _accounts.first;
         }
       });
-      // print('Accounts loaded');
+      developer.log('Accounts loaded');
     } catch (e) {
-      print('Error loading accounts: $e');
+      developer.log('Error loading accounts: $e');
       _showErrorSnackBar('Failed to load Accounts. Please try again.');
     }
   }
@@ -79,7 +81,8 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       _selectedDate = widget.expense!.date;
       // Safely find the category and account
 
-      // print( 'The selected category id is ${widget.expense!.accountId} and the existing is ${_accounts}');
+      developer.log(
+          'The selected category id is ${widget.expense!.accountId} and the existing is $_accounts');
 
       _selectedCategory =
           _categories.firstWhere((c) => c.id == widget.expense!.categoryId);
@@ -95,7 +98,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         _showErrorSnackBar('Warning: Could not find this Account}');
       }
     } catch (e) {
-      print('Error: $e');
+      developer.log('Error: $e');
       _showErrorSnackBar('Failed to open the expense, Please try again!');
     }
   }
@@ -105,7 +108,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       SnackBar(
         content: Text(message),
         backgroundColor: Colors.red,
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
         action: SnackBarAction(
           label: 'Dismiss',
           onPressed: () {
@@ -125,11 +128,11 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           children: [
             TextFormField(
               controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(labelText: 'Description'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a description';
@@ -139,8 +142,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             ),
             TextFormField(
               controller: _amountController,
-              decoration: InputDecoration(labelText: 'Amount'),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(labelText: 'Amount'),
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter an amount';
@@ -153,7 +157,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             ),
             DropdownButtonFormField<Category>(
               value: _selectedCategory,
-              decoration: InputDecoration(labelText: 'Category'),
+              decoration: const InputDecoration(labelText: 'Category'),
               items: _categories.map((category) {
                 return DropdownMenuItem(
                   value: category,
@@ -174,7 +178,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             ),
             DropdownButtonFormField<Account>(
               value: _selectedAccount,
-              decoration: InputDecoration(labelText: 'Account'),
+              decoration: const InputDecoration(labelText: 'Account'),
               items: _accounts.map((account) {
                 return DropdownMenuItem(
                   value: account,
@@ -195,7 +199,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             ),
             ListTile(
               title: Text('Date: ${_selectedDate.toString().substring(0, 10)}'),
-              trailing: Icon(Icons.calendar_today),
+              trailing: const Icon(Icons.calendar_today),
               onTap: () async {
                 final pickedDate = await showDatePicker(
                   context: context,
@@ -224,16 +228,20 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                     date: _selectedDate,
                   );
                   if (widget.expense == null) {
-                    print('Inserting expense');
+                    developer.log('Inserting expense');
                     await DatabaseHelper.instance.insertExpense(expense);
                     showSnackBar(
-                        context, 'Expense Added', SnackBarStatus.create,
+                        // ignore: use_build_context_synchronously
+                        context,
+                        'Expense Added',
+                        SnackBarStatus.create,
                         seconds: 3);
                   } else {
-                    print(
+                    developer.log(
                         'Updating expense with expense = ${expense.toMap().toString()}');
                     await DatabaseHelper.instance.updateExpense(expense);
                   }
+                  // ignore: use_build_context_synchronously
                   Navigator.pop(context);
                 }
               },

@@ -4,7 +4,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
 
-  const MyAppBar({required this.title, this.actions});
+  const MyAppBar({super.key, required this.title, this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +14,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         AppBar(
           title: Text(
             title,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Color.fromARGB(255, 185, 193, 199),
+          backgroundColor: const Color.fromARGB(255, 185, 193, 199),
           elevation: 4,
           centerTitle: true,
           actions: actions,
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
       ],
@@ -29,5 +29,5 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight + 10);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 10);
 }

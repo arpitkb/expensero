@@ -4,6 +4,7 @@ import 'package:expensero/widgets/category_list_item.dart';
 import 'package:flutter/material.dart';
 import '../models/category.dart';
 import '../services/database_helper.dart';
+import 'dart:developer' as developer;
 
 class CategoryListScreen extends StatefulWidget {
   const CategoryListScreen({super.key});
@@ -134,7 +135,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                       SnackBarStatus.deleted,
                       seconds: 2);
                 } catch (e) {
-                  // print('Error: $e');
+                  developer.log('Error: $e');
                   showSnackBar(
                       // ignore: use_build_context_synchronously
                       context,

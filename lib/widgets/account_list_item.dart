@@ -7,11 +7,11 @@ class AccountListItem extends StatelessWidget {
   final VoidCallback onEdit;
 
   const AccountListItem({
-    Key? key,
+    super.key,
     required this.account,
     required this.onDelete,
     required this.onEdit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +22,18 @@ class AccountListItem extends StatelessWidget {
             border: BorderDirectional(
                 bottom: BorderSide(color: Colors.black, width: .5))),
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
           title: Text(
             account.name,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
           ),
           onTap: onEdit,
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 onPressed: onDelete,
               ),
             ],

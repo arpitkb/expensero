@@ -30,8 +30,9 @@ void showSnackBar(BuildContext context, String message, SnackBarStatus status,
       action: SnackBarAction(
         label: 'Dismiss',
         onPressed: () {
-          if (context.mounted)
+          if (context.mounted) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          }
         },
         textColor: Colors.white,
       ),

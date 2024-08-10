@@ -8,6 +8,7 @@ import '../services/database_helper.dart';
 import 'package:intl/intl.dart';
 import 'home_screen.dart';
 import 'all_expenses_screen.dart';
+import 'dart:developer' as developer;
 
 class AnalysisScreen extends StatefulWidget {
   const AnalysisScreen({super.key});
@@ -40,9 +41,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
     final expenses = await DatabaseHelper.instance.getExpenses();
     final accountsData = await DatabaseHelper.instance.getAccounts();
     final categoriesData = await DatabaseHelper.instance.getCategories();
-    // categoriesData
-    //     .forEach((cat) => print('Category ${cat.name} id is ${cat.id}'));
-    // print('${categoriesData.first.name} id is ${categoriesData.first.id}');
+    developer
+        .log('${categoriesData.first.name} id is ${categoriesData.first.id}');
     setState(() {
       _expenses = expenses;
       _categories = categoriesData;
@@ -78,7 +78,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(
+      appBar: const MyAppBar(
         title: "Expense Analysis",
       ),
       body: Column(
